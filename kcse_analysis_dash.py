@@ -79,6 +79,14 @@ def update_subject_graph(selected_subject):
     fig = px.histogram(df, x=selected_subject, color='Sex', barmode='group', title=f'{selected_subject} Performance by Gender')
     return fig
 
-# Run the app
+# Export to static HTML for Cloudflare Pages deployment
 if __name__ == '__main__':
     app.run_server(debug=False)
+    import dash
+    from dash.dash import DashRenderer
+
+    # Create a static HTML file from the layout
+    with open('index.html', 'w') as f:
+        renderer = DashRenderer()
+        static_content = app.index()  # Render the basic layout
+        f.write(static_content)
